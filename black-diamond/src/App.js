@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
 import StoreFront from "./Components/StoreFront/StoreFront";
 import ShoppingCart from "./Components/ShoppingCart/ShoppingCart";
 import NavBar from "./Components/NavBar/NavBar";
+import axios from 'axios';
 
 class App extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class App extends Component {
     };
   }
   componentDidMount() {
+    console.log('Component mounted')
     axios
       .get("https://practiceapi.devmountain.com/products/")
       .then(response => {
@@ -22,23 +23,25 @@ class App extends Component {
         });
       });
   }
-  addToCart(item) {
+  addToCart = (item) => {
+    let newCart = this.state.cart
+    newCart.push(item)
     this.setState({
-      cart: [...this.state.cart, item]
+      cart: newCart
     });
   }
-  removeFromCart(index) {
+  removeFromCart = (index) => {
     let cartCopy = this.state.cart.slice();
     cartCopy.splice(index, 1);
     this.setState({
       cart: cartCopy
     });
   }
-  navigate(location) {
+  navigate = (location) => {
     if (location === "cart") {
-      this.state.showCart = true;
+      this.setState({showCart: true});
     } else {
-      this.state.showCart = false;
+      this.setState({showCart: false});
     }
   }
   render() {
